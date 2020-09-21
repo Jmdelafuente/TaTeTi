@@ -1,0 +1,20 @@
+{
+  "name": "tpo-rx",
+  "version": "1.0.0",
+  "description": "TA-TE-TI Reactivo para LPD - LCC",
+  "main": "server.js",
+  "dependencies": {
+    "socketio": "^1.0.0",
+    "websocket": "^1.0.32",
+    "yaeti": "^1.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "author": "Daiana Bonet Peinado - Juan de la Fuente",
+  "license": "ISC"
+}

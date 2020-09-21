@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title> TA-TE-TI-Rx</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="css/bootstrap.min.css"></script>
+    <link rel="stylesheet" href="css/estilo.css"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="js/constantes.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/socket.io.slim.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div id="tablero" class="play-area">
+        <!-- Fila 1 -->
+        <div class="row h-25 align-items-start px-0">
+          <div class="col-4 h-100 mx-0 px-0"><button id="c00" class="btn btn-block h-100 block"></button></div>
+          <div class="col-4 h-100 mx-0 px-0"><button id="c01" class="btn btn-block h-100 block"></button></div>
+          <div class="col-4 h-100 mx-0 px-0"><button id="c02" class="btn btn-block h-100 block"></button></div>
+        </div>
+        <!-- Fila 2 -->
+        <div class="row h-25 align-items-center px-0">
+          <div class="col-4 h-100 mx-0 px-0"><button id="c10" class="btn btn-block h-100 block"></button></div>
+          <div class="col-4 h-100 mx-0 px-0"><button id="c11" class="btn btn-block h-100 block"></button></div>
+          <div class="col-4 h-100 mx-0 px-0"><button id="c12" class="btn btn-block h-100 block"></button></div>
+        </div>
+        <!-- Fila 3 -->
+        <div class="row h-25 align-items-end px-0">
+          <div class="col-4 h-100 mx-0 px-0"><button id="c20" class="btn btn-block h-100 block"></button></div>
+          <div class="col-4 h-100 mx-0 px-0"><button id="c21" class="btn btn-block h-100 block"></button></div>
+          <div class="col-4 h-100 mx-0 px-0"><button id="c22" class="btn btn-block h-100 block"></button></div>
+        </div>
+      </div>
+      <div id="resultado">
+        <h1><b>JUEGO TERMINADO: </b></h1><p id="ganador"></p>
+      </div>
+    </div>
+    <script type="text/javascript">
+      var socket;
+      var simbolo;
+      window.addEventListener("load", function(event) {
+        // $('#tablero').hide();
+        $('#resultado').hide();
+        $('button[id^="c"]').addClass('not-turn');
+        socket = io(url);
+        socket.on('connect', () => {
+          console.log(socket.id);
+          socket.on("asignacion_simbolo", data => {
+              d = JSON.parse(data);
+              if(debug){
+                console.log(d);
+              };
+              simbolo = d;
+          });
+
+          socket.on("turno_jugador", data => {
+            let d = JSON.parse(data);
+            console.log(data);
+            console.log(d);
+            /*
+            * d => el ultimo movimiento | vacio si es el turno inicial
+            */
+            if(d != '{}'){
+              let i = d.fila;
+              let j = d.columna;
+              let s = d.simbolo;
+              $('#c'+i+j).html(s);
+              $('#c'+i+j).addClass('not-turn');
+            };
+            $('button[id^="c"]').removeClass('not-turn');
+            if(debug){
+              console.log(d);
+            };
+          });
+          socket.on("game_over", data => {
+            let d = JSON.stringify(data);
+            if(debug){
+              console.log(data);
+            };
+
+          });
+          socket.on("mostrar_tablero", data => {
+            if(debug){
+              console.log(data);
+            };
+            // let d = JSON.parse(data);
+            // jugador = d.p;
+            $('#tablero').fadein(fast)
+          });
+        });
+        $('button[id^="c"]').click(function(e) {
+          e.preventDefault();
+          // i -> fila
+          // j-> columna
+          // p -> jugador
+          var data = {};
+          data.i = this.id[1];
+          data.j = this.id[2];
+          data.p = socket.id;
+          socket.emit("jugar_turno", JSON.stringify(data) );
+          if(debug){
+            console.log(JSON.stringify(data));
+          };
+          $(this).html(simbolo);
+          // Evitamos multiples clicks
+          $('button[id^="c"]').addClass('not-turn');
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,79 @@
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.not-turn {
+ pointer-events: none;
+ cursor: default;
+}
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.play-area {
+  width: 400px;
+  height: 400px;
+  /* background: #eee; */
+  margin:0;
+  padding:0;
+}
+
+.block {
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  font-weight: bold;
+  border: 3px solid black;
+  transition: background 0.2s ease-in-out;
+}
+
+.block:hover {
+  cursor: pointer;
+  background: #0ff30f;
+}
+
+.occupied:hover {
+  background: #ff3a3a;
+}
+
+
+#c00,
+#c01,
+#c02 {
+  border-top: none;
+}
+
+#c00,
+#c10,
+#c20 {
+  border-left: none;
+}
+
+#c20,
+#c21,
+#c22 {
+  border-bottom: none;
+}
+
+#c02,
+#c12,
+#c22 {
+  border-right: none;
+}
+
+.playerWin {
+  color: green;
+}
+
+.playerLost {
+  color: red;
+}
+
+.draw {
+  color: orangered;
+}
