@@ -42,27 +42,27 @@
 }
 
 
-#c00,
-#c01,
-#c02 {
+#c00,#id00,
+#c01,#id01,
+#c02,#id02 {
   border-top: none;
 }
 
-#c00,
-#c10,
-#c20 {
+#c00,#id00,
+#c10,#id10,
+#c20,#id20 {
   border-left: none;
 }
 
-#c20,
-#c21,
-#c22 {
+#c20,#id20,
+#c21,#id21,
+#c22,#id22 {
   border-bottom: none;
 }
 
-#c02,
-#c12,
-#c22 {
+#c02,#id02,
+#c12,#id12,
+#c22,#id22 {
   border-right: none;
 }
 
