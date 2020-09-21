@@ -1,3 +1,4 @@
+const debug = true;
 const server = require('http').createServer();
 var io = require('socket.io')(server, { origins: '*:*'});
 
@@ -12,16 +13,6 @@ var simbolos=['X','O']; //Simbolos disponibles
 var simbolo_asignado = [];       //id de ws -> simbolo
 var estado_juego = ''; //'X' Gano jugador x; 'O' Gano jugador o; 'D' Empate; '' juego en curso.
 var ronda = 0;
-var combinacionesGanadoras = [
-    [[0, 0], [0, 1], [0, 2]],
-    [[1, 0], [1, 1], [1, 2]],
-    [[2, 0], [2, 1], [2, 2]],
-    [[0, 0], [1, 0], [2, 0]],
-    [[0, 1], [1, 1], [2, 1]],
-    [[0, 2], [1, 2], [2, 2]],
-    [[0, 0], [1, 1], [2, 2]],
-    [[0, 2], [1, 1], [2, 0]]
-]; // game winning combination index
 
 function originIsAllowed(origin) {
 	// put logic here to detect whether the specified origin is allowed.
@@ -30,7 +21,9 @@ function originIsAllowed(origin) {
 //--------------------- EVENTOS TA-TE-TI------------------
 io.on('connection', wsTateti => {
 	let id = wsTateti.id;
-	console.log("New client connected. ID: ", id);
+  if(debug){
+    console.log("New client connected. ID: ", id);
+  }
 	ws[id] = wsTateti;
   // Asignamos 'X' o 'O'
   if(simbolos.length > 0){
@@ -39,30 +32,42 @@ io.on('connection', wsTateti => {
     simbolo_asignado[id] = s;
   };
   if(simbolos.length == 0){
-    // io.emit("mostrar_tablero");
+    io.emit("mostrar_tablero");
     //Asigna un turno a un jugador
-    // let jugador_inicial = random_item(ws);
-    let jugador_inicial = ws[jugadores['X']];
+    let jugador_inicial = random_item(jugadores);
+    jugador_inicial = ws[jugador_inicial];
+    // jugador_inicial = ws[jugadores['X']];
     jugador_inicial.emit("turno_jugador",JSON.stringify('{}'));
     turno = simbolo_asignado[jugador_inicial.id];
-    console.log(turno);
+    if(debug){
+      console.log(turno);
+    }
   };
-  console.log(simbolo_asignado[id] + ' - ' + Object.keys(simbolos).length);
+  if(debug){
+    console.log(simbolo_asignado[id] + ' - ' + Object.keys(simbolos).length);
+  }
   wsTateti.emit('asignacion_simbolo',JSON.stringify(simbolo_asignado[id]));
 
   wsTateti.on('disconnect', () => {
-		console.log("Client disconnected. ID: ", wsTateti.id);
-    delete ws[wsTateti.id]; // Eliminamos el WS
-    simbolos.push(simbolo_asignado[wsTateti.id]); // Volvemos a poner disponible el simbolo
-    delete jugadores[simbolo_asignado[wsTateti.id]]; // Eliminamos la relacion simbolo-ws.id
-    delete simbolos[wsTateti.id]; // Eliminamos la relacion ws.id-simbolo
+    if(debug){
+		    console.log("Client disconnected. ID: ", wsTateti.id);
+    };
+    delete ws[wsTateti.id];                           // Eliminamos el WS
+    simbolos.push(simbolo_asignado[wsTateti.id]);     // Volvemos a poner disponible el simbolo
+    delete jugadores[simbolo_asignado[wsTateti.id]];  // Eliminamos la relacion simbolo-ws.id
+    delete simbolos[wsTateti.id];                     // Eliminamos la relacion ws.id-simbolo
     // socket.broadcast.emit("clientdisconnect", id);
+    if(simbolos.length == 2){
+      reiniciar_partida();
+    }
 	});
 	//
 	wsTateti.on('jugar_turno', function(req)//request[i:fila;j:columna;p:jugador]
 	{
     var request = JSON.parse(req);
-		console.log(request);
+    if(debug){
+		    console.log(request);
+    }
     idSocket = request.p;
     simbolo = simbolo_asignado[idSocket];
 		//verificar si es mi turno
@@ -71,40 +76,14 @@ io.on('connection', wsTateti => {
 				fila = parseInt(request.i);
 				columna = parseInt(request.j);
 
-        var i = 0;
-        var j = 0;
         //seleccionar casilla
 				if(tablero[fila][columna] == '#')
 				{
           console.log('La casilla esta vacía');
 					tablero[fila][columna] = simbolo;
           ronda += 1;
-          //verificar si se termino el juego
-          // while(estado_juego != '' && i < 3 && j < 3)
-          // {
-          //   if ( tablero[i][j] == tablero[i+1][j] && tablero[i+1][j] == tablero[i+2][j] != '#')
-          //   {
-          //       estado_juego = tablero[i][j];
-          //   }
-          //   else
-          //   {
-          //     if(tablero[i][j] == tablero[i][j+1] && tablero[i][j+1] == tablero[i][j+2] != '#')
-          //     {
-          //       estado_juego = tablero[i][j];
-          //     }
-          //   }
-          //   i++;
-          //   j++;
-          // }
-          // if(tablero[0][0] == tablero[1][1] && tablero[1][1]  == tablero[2][2] != '#')
-          // {
-          //   estado_juego = tablero[0][0];
-          //
-          // }
-          // if(tablero[0][2] == tablero[1][1] && tablero[1][1] == tablero[2][0] != '#')
-          // {
-          //   estado_juego = tablero[1][1];
-          // }
+
+          verificar_ganador();
 
           //verificar si hay empate
           if (estado_juego == '')
@@ -114,26 +93,35 @@ io.on('connection', wsTateti => {
               estado_juego = 'D';
             }
           }
-          console.log('Por chequear Game Over');
+          if(debug){
+            console.log('Por chequear Game Over');
+          }
           //dispara game over.
           if(estado_juego != ''){
             let mensaje = {};
-            console.log(estado_juego);
+            if(debug){
+              console.log(estado_juego);
+            }
             if(estado_juego == 'D'){
               mensaje.resultado = '¡Tenemos un empate!';
-              io.emit("game_over",mensaje)
+              io.emit("game_over",JSON.stringify(mensaje));
             }else{
               for (var key in ws){
-                  if(key = jugadores[estado_juego]){
+                  if(key == jugadores[estado_juego]){
                     mensaje.resultado = '¡Has ganado!';
                   }else{
                     mensaje.resultado = '¡Has perdido!';
+
                   }
-                  ws[key].emit("game_over",mensaje);
+                  ws[key].emit("game_over",JSON.stringify(mensaje));
               };
             };
+            // Limpiamos tablero;
+            reiniciar_partida();
           };
-          console.log('IUJUU NO ES GAME OVER!');
+          if(debug){
+            console.log('NO ES GAME OVER!');
+          }
           // si no se termino Event cambio de turno
           let ultimo_movimiento = {};
           ultimo_movimiento.fila = fila;
@@ -150,7 +138,7 @@ io.on('connection', wsTateti => {
           console.log(ultimo_movimiento);
 				}
         else {
-          // error de movimiento
+          // TODO: error de movimiento
         }
 			}
 	});
@@ -158,11 +146,83 @@ io.on('connection', wsTateti => {
 	wsTateti.on('game_over', function(request)
 	{
 			// le avisa a los jugadores que el juego termino
+      reiniciar_partida();
+
 	});
 });
 
 function random_item(items){
-  return items[Math.floor(Math.random() * (Object.keys(items)).length)]
+  let keys = Object.keys(items);
+  let i = keys.length;
+  let random = Math.floor(Math.random() * i);
+  return items[keys[random]];
+}
+
+function reiniciar_partida(){
+  tablero=[['#','#','#'],
+               ['#','#','#'],
+               ['#','#','#']
+              ];
+  estado_juego = '';
+  ronda = 0;
+  simbolos=['X','O'];
+  simbolo_asignado = [];
+}
+function verificar_ganador(){
+  // Verificar 3 en linea vertical
+
+  if ( (tablero[0][0] == tablero[1][0]) && (tablero[1][0]  == tablero[2][0]) && (tablero[2][0] != '#'))
+    {
+        console.log('Pimer if');
+        console.log(tablero[0][0]);
+
+        estado_juego = tablero[0][0];
+    }
+  else
+    {
+      if((tablero[0][1] == tablero[1][1]) && (tablero[1][1] == tablero[2][1]) && (tablero[2][1] != '#'))
+      {
+        estado_juego = tablero[1][1];
+      }
+      else
+      {
+        if((tablero[0][2] == tablero[1][2]) && (tablero[1][2] == tablero[2][2]) && (tablero[2][2] != '#'))
+        {
+          estado_juego = tablero[2][2];
+        }
+      }
+    }
+  // verificar 3 en linea horizontal
+  if (estado_juego == '')
+  {
+    if((tablero[0][0] == tablero[0][1]) && (tablero[0][1] == tablero[0][2]) &&(tablero[0][2] != '#')  )
+    {
+      estado_juego = tablero[0][0];
+    }
+    else
+    {
+      if((tablero[1][0] == tablero[1][1]) && (tablero[1][1] == tablero[1][2]) && (tablero[1][2] != '#'))
+      {
+        estado_juego = tablero[1][1];
+      }
+      else
+      {
+        if((tablero[2][0] == tablero[2][1]) && (tablero[2][1] == tablero[2][2]) && (tablero[2][2]!= '#') )
+        {
+          estado_juego = tablero[2][2];
+        }
+      }
+    }
+  }
+
+  //verificar 3 en linea diagonal
+  if( estado_juego == '')
+  {
+    if((tablero[0][0] == tablero[1][1]) && (tablero[1][1]  == tablero[2][2])&& (tablero[2][2]!= '#'))
+    {   estado_juego = tablero[0][0];}
+    if((tablero[0][2] == tablero[1][1]) && (tablero[1][1] == tablero[2][0]) &&(tablero[2][0] != '#'))
+    {   estado_juego = tablero[1][1];}
+  }
 }
 server.listen(3000);
 //-------------------- FIN EVENTOS TA-TE-TI -----------------
