@@ -34,14 +34,14 @@
         </div>
       </div>
       <div id="resultado">
-        <h1><b>JUEGO TERMINADO: </b></h1><p id="ganador"></p>
+        <h1><b>JUEGO TERMINADO: </b></h1><div id="ganador"></div>
       </div>
     </div>
     <script type="text/javascript">
       var socket;
       var simbolo;
       window.addEventListener("load", function(event) {
-        // $('#tablero').hide();
+        $('#tablero').hide();
         $('#resultado').hide();
         $('button[id^="c"]').addClass('not-turn');
         socket = io(url);
@@ -66,8 +66,10 @@
               let i = d.fila;
               let j = d.columna;
               let s = d.simbolo;
-              $('#c'+i+j).html(s);
-              $('#c'+i+j).addClass('not-turn');
+              let id = '#c'+i+j;
+              $(id).html(s);
+              $(id).addClass('not-turn');
+              $(id).attr('id','id'+id[2]+id[3]);
             };
             $('button[id^="c"]').removeClass('not-turn');
             if(debug){
@@ -75,11 +77,14 @@
             };
           });
           socket.on("game_over", data => {
-            let d = JSON.stringify(data);
+            let d = JSON.parse(data);
             if(debug){
               console.log(data);
             };
-
+            $('button[id^="c"]').addClass('not-turn');
+            $('#tablero').fadeOut(1500);
+            $('#ganador').html('<p>'+d.resultado+'</p>');
+            $('#resultado').show();
           });
           socket.on("mostrar_tablero", data => {
             if(debug){
@@ -87,7 +92,7 @@
             };
             // let d = JSON.parse(data);
             // jugador = d.p;
-            $('#tablero').fadein(fast)
+            $('#tablero').fadeIn(1500);
           });
         });
         $('button[id^="c"]').click(function(e) {
@@ -106,6 +111,7 @@
           $(this).html(simbolo);
           // Evitamos multiples clicks
           $('button[id^="c"]').addClass('not-turn');
+          $(this).attr('id','id'+this.id[1]+this.id[2]);
         });
       });
     </script>
