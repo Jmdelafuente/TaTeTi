@@ -3,8 +3,8 @@
 }
 
 .not-turn {
- pointer-events: none;
- cursor: default;
+  pointer-events: none;
+  cursor: default;
 }
 
 .container {
@@ -19,8 +19,8 @@
   width: 400px;
   height: 400px;
   /* background: #eee; */
-  margin:0;
-  padding:0;
+  margin: 0;
+  padding: 0;
 }
 
 .block {
@@ -34,46 +34,45 @@
 
 .block:hover {
   cursor: pointer;
-  background: #0ff30f;
+  background: #878685;
 }
 
 .occupied:hover {
   background: #ff3a3a;
 }
 
-
-#c00,#id00,
-#c01,#id01,
-#c02,#id02 {
+#c00,
+#id00,
+#c01,
+#id01,
+#c02,
+#id02 {
   border-top: none;
 }
 
-#c00,#id00,
-#c10,#id10,
-#c20,#id20 {
+#c00,
+#id00,
+#c10,
+#id10,
+#c20,
+#id20 {
   border-left: none;
 }
 
-#c20,#id20,
-#c21,#id21,
-#c22,#id22 {
+#c20,
+#id20,
+#c21,
+#id21,
+#c22,
+#id22 {
   border-bottom: none;
 }
 
-#c02,#id02,
-#c12,#id12,
-#c22,#id22 {
+#c02,
+#id02,
+#c12,
+#id12,
+#c22,
+#id22 {
   border-right: none;
-}
-
-.playerWin {
-  color: green;
-}
-
-.playerLost {
-  color: red;
-}
-
-.draw {
-  color: orangered;
 }
