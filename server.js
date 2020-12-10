@@ -1,5 +1,8 @@
+//--------------------- INICIALIZACION------------------
 const debug = true;
+const fs = require("fs");
 const server = require("http").createServer();
+const os = require("os");
 var io = require("socket.io")(server, { origins: "*:*" });
 
 var turno = "X";
@@ -14,6 +17,26 @@ var simbolos = ["X", "O"]; //Simbolos disponibles
 var simbolo_asignado = []; //id de ws -> simbolo
 var estado_juego = ""; //'X' Gano jugador x; 'O' Gano jugador o;'D' Empate; '' juego en curso.
 var ronda = 0;
+
+let networkInterfaces = os.networkInterfaces();
+let address;
+var args = process.argv.slice(2);
+if(args[0]){
+  address = networkInterfaces[args[0]][0].address;
+}else{
+  let name = Object.keys(networkInterfaces)[1];
+  address = networkInterfaces[name][0].address;
+}
+let content = `const server = "http://${address}";
+const port = "3000";
+const url = server + ":" + port;
+const debug = true;`;
+
+fs.writeFile("public/js/constantes.js", content, function (err) {
+  if (err) throw err;
+}); 
+
+//-------------------- FIN INICIALIZACION-----------------
 
 //--------------------- EVENTOS TA-TE-TI------------------
 io.on("connection", (wsTateti) => {
