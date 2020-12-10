@@ -34,8 +34,8 @@ const debug = true;`;
 
 fs.writeFile("public/js/constantes.js", content, function (err) {
   if (err) throw err;
-}); 
-
+});
+console.log(`Ip privada del servidor: ${address}`);
 //-------------------- FIN INICIALIZACION-----------------
 
 //--------------------- EVENTOS TA-TE-TI------------------
