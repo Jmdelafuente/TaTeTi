@@ -5,28 +5,28 @@ deberían ser compatibles con todas las distribuciones derivadas sin necesidad d
 
 Para correr el ejemplo se necesita:
 
-1. Clonar el repositorio (```bash git clone https://github.com/Jmdelafuente/TaTeTi.git```) y entrar en el directorio creado (```bash cd TaTeTi```)
+1. Clonar el repositorio (```git clone https://github.com/Jmdelafuente/TaTeTi.git```) y entrar en el directorio creado (```cd TaTeTi```)
 
-2. Instalar Node.js (```bash sudo apt-get install nodejs```) y (```bash sudo apt-get install npm```)
+2. Instalar Node.js (``` sudo apt-get install nodejs```) y (```sudo apt-get install npm```)
 
 3. En el directorio node_modules están los módulos requeridos. Igualmente es posible realizar una instalación de las dependencias con:
-   ```bash npm install```
+   ``` npm install```
 
-4. Entrar al directorio public, que coniene los archivos necesarios para ejecutar el cliente (```bash cd public```)
+4. Entrar al directorio public, que coniene los archivos necesarios para ejecutar el cliente (``` cd public```)
 
 5. Ejecutar algún servidor http (si dispone de uno puede utilizarlo sin inconvenientes). Sino se puede ejecutar un servidor simple y rápido de python con:
 
-```bash
+```Bash
 python2 -m SimpleHTTPServer 8000
 ```
 
 o si dispone de python3
 
-```bash
+```
 python3 -m http.server 8000
 ```
 
-6. En una nueva terminal, acceder al directorio del repositorio (```bash cd TaTeTi```)
+6. En una nueva terminal, acceder al directorio del repositorio (``` cd TaTeTi```)
 
 7. Ejecutar el servidor del juego con un único parámetro que indique el nombre de la interfaz de red que desea utilizar como salida del servidor, este dato es opcional, si no lo indica, por defecto toma la primer interfaz disponible después de lo.
 
