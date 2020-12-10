@@ -30,14 +30,19 @@ io.on("connection", (wsTateti) => {
   }
   // Si no existen mas simbolos -> se comienza la partida
   if (simbolos.length == 0) {
-    io.emit("mostrar_tablero");
-    //Asigna un turno a un jugador aleatorio (puede ser X o O)
-    let jugador_inicial = random_item(jugadores);
-    jugador_inicial = ws[jugador_inicial];
-    jugador_inicial.emit("turno_jugador", JSON.stringify("{}"));
-    turno = simbolo_asignado[jugador_inicial.id];
-    if (debug) {
-      console.log(turno);
+    if (Object.keys(ws).length == 2) {
+      io.emit("mostrar_tablero");
+      //Asigna un turno a un jugador aleatorio (puede ser X o O)
+      let jugador_inicial = random_item(jugadores);
+      jugador_inicial = ws[jugador_inicial];
+      jugador_inicial.emit("turno_jugador", JSON.stringify("{}"));
+      turno = simbolo_asignado[jugador_inicial.id];
+      if (debug) {
+        console.log(turno);
+      }
+    } else {
+      // Ya existen dos jugadores, no hay mas cupo.
+      wsTateti.emit("sala_llena");
     }
   }
   if (debug) {
@@ -49,14 +54,17 @@ io.on("connection", (wsTateti) => {
     if (debug) {
       console.log("Client disconnected. ID: ", wsTateti.id);
     }
-    delete ws[wsTateti.id]; // Eliminamos el WS
-    simbolos.push(simbolo_asignado[wsTateti.id]); // Volvemos a poner disponible el simbolo
-    delete jugadores[simbolo_asignado[wsTateti.id]]; // Eliminamos la relacion simbolo-ws.id
-    delete simbolo_asignado[wsTateti.id]; // Eliminamos la relacion ws.id-simbolo
-    // Aviso de desconexion al otro jugador
-    io.emit("clientdisconnect", id);
-    if (simbolos.length == 2) {
-      reiniciar_partida();
+    delete ws[wsTateti.id]; // Eliminamos el websocket registrado
+    if(simbolo_asignado[wsTateti.id]){
+      // El cliente tiene un simbolo asignado -> es un jugador
+      simbolos.push(simbolo_asignado[wsTateti.id]); // Volvemos a poner disponible el simbolo
+      delete jugadores[simbolo_asignado[wsTateti.id]]; // Eliminamos la relacion simbolo-ws.id
+      delete simbolo_asignado[wsTateti.id]; // Eliminamos la relacion ws.id-simbolo
+      // Aviso de desconexion al otro jugador (broadcast)
+      io.emit("clientdisconnect", id);
+      if (simbolos.length == 2) {
+        reiniciar_partida();
+      }
     }
   });
   //
@@ -77,7 +85,9 @@ io.on("connection", (wsTateti) => {
 
       //seleccionar casilla
       if (tablero[fila][columna] == "#") {
-        console.log("La casilla esta vacía");
+        if (debug) {
+          console.log("La casilla esta vacía");
+        }
         // ACK de que el movimiento fue posible
         movimiento_valido(true);
 
@@ -161,20 +171,18 @@ function reiniciar_partida() {
   ];
   estado_juego = "";
   ronda = 0;
-  // simbolos=['X','O'];
-  // simbolo_asignado = [];
 }
 function verificar_ganador() {
   // Verificar 3 en linea vertical
-
   if (
     tablero[0][0] == tablero[1][0] &&
     tablero[1][0] == tablero[2][0] &&
     tablero[2][0] != "#"
   ) {
-    console.log("Pimer if");
-    console.log(tablero[0][0]);
-
+    if (debug) {
+      console.log("Pimer if");
+      console.log(tablero[0][0]);
+    }
     estado_juego = tablero[0][0];
   } else {
     if (
