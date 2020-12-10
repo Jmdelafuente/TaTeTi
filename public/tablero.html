@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <meta charset="utf-8">
-    <title> TA-TE-TI-Rx</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
-    <link rel="stylesheet" href="css/bootstrap.min.css"></script>
-    <link rel="stylesheet" href="css/estilo.css"></script>
+    <meta charset="utf-8" />
+    <title>TA-TE-TI-Rx</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes"/>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/estilo.css" />
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="js/constantes.js" charset="utf-8"></script>
@@ -14,7 +14,8 @@
   <body>
     <div class="container">
       <div class="alert alert-warning alert-dismissible fade show" role="alert" id="mensajes">
-          El movimiento no es válido o no ha podido realizarse, por favor intente nuevamente o pruebe otro movimiento.
+        El movimiento no es válido o no ha podido realizarse, por favor intente
+        nuevamente o pruebe otro movimiento.
       </div>
       <div id="titulo" class="fixed-top mx-auto text-center bg-dark text-white">
         <h1 class="mt-1"><b>TA ~ TE ~ TI </b></h1>
@@ -29,108 +30,154 @@
       <div id="tablero" class="play-area">
         <!-- Fila 1 -->
         <div class="row h-25 align-items-start px-0">
-          <div class="col-4 h-100 mx-0 px-0"><button id="c00" class="btn btn-block h-100 block"></button></div>
-          <div class="col-4 h-100 mx-0 px-0"><button id="c01" class="btn btn-block h-100 block"></button></div>
-          <div class="col-4 h-100 mx-0 px-0"><button id="c02" class="btn btn-block h-100 block"></button></div>
+          <div class="col-4 h-100 mx-0 px-0">
+            <button id="c00" class="btn btn-block h-100 block"></button>
+          </div>
+          <div class="col-4 h-100 mx-0 px-0">
+            <button id="c01" class="btn btn-block h-100 block"></button>
+          </div>
+          <div class="col-4 h-100 mx-0 px-0">
+            <button id="c02" class="btn btn-block h-100 block"></button>
+          </div>
         </div>
         <!-- Fila 2 -->
         <div class="row h-25 align-items-center px-0">
-          <div class="col-4 h-100 mx-0 px-0"><button id="c10" class="btn btn-block h-100 block"></button></div>
-          <div class="col-4 h-100 mx-0 px-0"><button id="c11" class="btn btn-block h-100 block"></button></div>
-          <div class="col-4 h-100 mx-0 px-0"><button id="c12" class="btn btn-block h-100 block"></button></div>
+          <div class="col-4 h-100 mx-0 px-0">
+            <button id="c10" class="btn btn-block h-100 block"></button>
+          </div>
+          <div class="col-4 h-100 mx-0 px-0">
+            <button id="c11" class="btn btn-block h-100 block"></button>
+          </div>
+          <div class="col-4 h-100 mx-0 px-0">
+            <button id="c12" class="btn btn-block h-100 block"></button>
+          </div>
         </div>
         <!-- Fila 3 -->
         <div class="row h-25 align-items-end px-0">
-          <div class="col-4 h-100 mx-0 px-0"><button id="c20" class="btn btn-block h-100 block"></button></div>
-          <div class="col-4 h-100 mx-0 px-0"><button id="c21" class="btn btn-block h-100 block"></button></div>
-          <div class="col-4 h-100 mx-0 px-0"><button id="c22" class="btn btn-block h-100 block"></button></div>
+          <div class="col-4 h-100 mx-0 px-0">
+            <button id="c20" class="btn btn-block h-100 block"></button>
+          </div>
+          <div class="col-4 h-100 mx-0 px-0">
+            <button id="c21" class="btn btn-block h-100 block"></button>
+          </div>
+          <div class="col-4 h-100 mx-0 px-0">
+            <button id="c22" class="btn btn-block h-100 block"></button>
+          </div>
         </div>
       </div>
       <div id="resultado" class="text-center">
-        <h1><b>JUEGO TERMINADO: </b></h1><div id="ganador"></div>
-        <button type="button" name="reiniciar" class="btn btn-outline-secondary btn-sm mx-auto" onclick="location.reload();"> Volver a empezar </button>
+        <h1><b>JUEGO TERMINADO: </b></h1>
+        <div id="ganador"></div>
+        <button
+          type="button"
+          name="reiniciar"
+          class="btn btn-outline-secondary btn-sm mx-auto"
+          onclick="location.reload();"
+        >
+          Volver a empezar
+        </button>
       </div>
       <div id="footer" class="fixed-bottom bg-dark text-white mb-0 mt-0 p-0">
-          <p class="float-left ml-4">&#127279;<a href="https://www.gnu.org/licenses/gpl.html" class="badge badge-dark">GNU-GPL</a></p><p class="float-right mr-4"><a href="https://github.com/dainbp" class="badge badge-dark">Bonet Peinado</a> - <a href="https://github.com/jmdelafuente" class="badge badge-dark">de la Fuente</a></p>
+        <p class="float-left ml-4">
+          &#127279;<a
+            href="https://www.gnu.org/licenses/gpl.html"
+            class="badge badge-dark"
+            >GNU-GPL</a
+          >
+        </p>
+        <p class="float-right mr-4">
+          <a href="https://github.com/dainbp" class="badge badge-dark"
+            >Bonet Peinado</a
+          >
+          -
+          <a href="https://github.com/jmdelafuente" class="badge badge-dark"
+            >de la Fuente</a
+          >
+        </p>
       </div>
     </div>
     <script type="text/javascript">
       var socket;
       var simbolo;
-      var mensaje_turno = 'Esperando otro jugador';
+      var mensaje_turno = "Esperando otro jugador";
 
-      function partidaTerminada(mensaje){
-        $('button[id^="c"]').addClass('not-turn');
-        $('#tablero').fadeOut(1500);
-        $('#ganador').html('<p>'+mensaje+'</p>');
-        $('#turno').html('');
-        $('#turno').hide();
-        $("#loading").hide();
-        $('#resultado').show();
-      };
+      function partidaTerminada(mensaje) {
+        $('button[id^="c"]').addClass("not-turn");
+        $("#tablero").fadeOut(1000);
+        $("#ganador").html("<p>" + mensaje + "</p>");
+        $("#turno").html("");
+        $("#turno").hide();
+        $("#loading").fadeOut(100);
+        $("#resultado").show();
+      }
 
-      window.addEventListener("load", function(event) {
-        $('#mensajes').hide();
-        $('#tablero').hide();
-        $('#resultado').hide();
-        $('button[id^="c"]').addClass('not-turn');
+      window.addEventListener("load", function (event) {
+        $("#mensajes").hide();
+        $("#tablero").hide();
+        $("#resultado").hide();
+        $('button[id^="c"]').addClass("not-turn");
         socket = io(url);
-        socket.on('connect', () => {
-          if(debug){
+        socket.on("connect", () => {
+          if (debug) {
             console.log(socket.id);
           }
-          socket.on("asignacion_simbolo", data => {
-              d = JSON.parse(data);
-              if(debug){
-                console.log(d);
-              };
-              simbolo = d;
-              $("#turno").html(mensaje_turno);
-              $("#loading").show();
+          socket.on("asignacion_simbolo", (data) => {
+            d = JSON.parse(data);
+            if (debug) {
+              console.log(d);
+            }
+            simbolo = d;
+            $("#turno").html(mensaje_turno);
+            $("#loading").show();
           });
 
-          socket.on("mostrar_tablero", data => {
-            $("#loading").fadeOut(15);
-            $('#tablero').fadeIn(1500);
+          socket.on("mostrar_tablero", (data) => {
+            $("#loading").fadeOut(100);
+            $("#tablero").fadeIn(1500);
           });
 
-          socket.on("turno_jugador", data => {
+          socket.on("turno_jugador", (data) => {
             let d = JSON.parse(data);
-            if(debug){
+            if (debug) {
               console.log(data);
-            };
+            }
             /*
-            * d => el ultimo movimiento | vacio si es el turno inicial
-            */
-            if(d != '{}'){
+             * d => el ultimo movimiento | vacio si es el turno inicial
+             */
+            if (d != "{}") {
               let i = d.fila;
               let j = d.columna;
               let s = d.simbolo;
-              let id = '#c'+i+j;
+              let id = "#c" + i + j;
               $(id).html(s);
-              $(id).addClass('not-turn');
-              $(id).attr('id','id'+id[2]+id[3]);
-            };
-            $('button[id^="c"]').removeClass('not-turn');
+              $(id).addClass("not-turn");
+              $(id).attr("id", "id" + id[2] + id[3]);
+            }
+            $('button[id^="c"]').removeClass("not-turn");
             mensaje_turno = "Tu turno!";
             $("#turno").text(mensaje_turno);
           });
 
-          socket.on("game_over", data => {
+          socket.on("game_over", (data) => {
             let d = JSON.parse(data);
-            if(debug){
+            if (debug) {
               console.log(data);
-            };
+            }
             partidaTerminada(d.resultado);
           });
 
-          socket.on("clientdisconnect", id => {
-            partidaTerminada('Cliente desconectado. Partida finalizada');
+          socket.on("sala_llena", (data) => {
+            partidaTerminada("La sala se encuentra llena, intentelo más tarde");
+            socket.close();
+          });
+
+          socket.on("clientdisconnect", (id) => {
+            partidaTerminada("Cliente desconectado. Partida finalizada");
             socket.close();
           });
         });
 
-        $('button[id^="c"]').click(function(e) {
+        $('button[id^="c"]').click(function (e) {
           let estado_anterior = $(this).html();
           e.preventDefault();
           // i -> fila
@@ -140,25 +187,31 @@
           data.i = this.id[1];
           data.j = this.id[2];
           data.p = socket.id;
-          socket.emit("jugar_turno", JSON.stringify(data), (movimiento_valido)=>{
-            // Callback para ack
-            if(!movimiento_valido){
-              $(this).html(estado_anterior);
-              $('button[id^="c"]').removeClass('not-turn');
-              $(this).attr('id','c'+this.id[1]+this.id[2]);
-              $('#mensajes').show();
-              setTimeout(function(){ $('#mensajes').hide(); }, 10000);
-              $("#turno").html("Tu turno!");
-            };
-          });
-          if(debug){
+          socket.emit(
+            "jugar_turno",
+            JSON.stringify(data),
+            (movimiento_valido) => {
+              // Callback para ack
+              if (!movimiento_valido) {
+                $(this).html(estado_anterior);
+                $('button[id^="c"]').removeClass("not-turn");
+                $(this).attr("id", "c" + this.id[1] + this.id[2]);
+                $("#mensajes").show();
+                setTimeout(function () {
+                  $("#mensajes").hide();
+                }, 10000);
+                $("#turno").html("Tu turno!");
+              }
+            }
+          );
+          if (debug) {
             console.log(JSON.stringify(data));
-          };
+          }
           $(this).html(simbolo);
           $("#turno").html("Turno del otro jugador");
           // Evitamos multiples clicks
-          $('button[id^="c"]').addClass('not-turn');
-          $(this).attr('id','id'+this.id[1]+this.id[2]);
+          $('button[id^="c"]').addClass("not-turn");
+          $(this).attr("id", "id" + this.id[1] + this.id[2]);
         });
       });
     </script>
