@@ -1,6 +1,6 @@
 # Instrucciones de Uso
 
-Las instrucciones de uso fueron probadas en un sistema GNU/Linux Debian,
+Las instrucciones de uso fueron probadas en un sistema GNU/Linux Debian 10,
 deberían ser compatibles con todas las distribuciones derivadas sin necesidad de cambios.
 
 Para correr el ejemplo se necesita:
@@ -12,7 +12,7 @@ Para correr el ejemplo se necesita:
 3. En el directorio node_modules están los módulos requeridos. Igualmente es posible realizar una instalación de las dependencias con:
    ``` npm install```
 
-4. Entrar al directorio public, que coniene los archivos necesarios para ejecutar el cliente (``` cd public```)
+4. Entrar al directorio public, que contiene los archivos necesarios para ejecutar el cliente (``` cd public```)
 
 5. Ejecutar algún servidor http (si dispone de uno puede utilizarlo sin inconvenientes). Sino se puede ejecutar un servidor simple y rápido de python con:
 
